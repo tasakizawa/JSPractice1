@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    'use strict';
+
+    const tasks = [
+      {todo: "机を片付ける。", genre: "掃除"},
+      {todo: "牛乳を買う。", genre: "買い物"},
+      {todo: "散歩する。", genre: "運動"}
+    ];
+
+    console.log("============================");
+    console.log("現在持っているタスク一覧");
+    console.log("============================");
+
+    for(let task of tasks) {
+      console.log(`${tasks.indexOf(task)} : [内容]${task.todo} [ジャンル]${task.genre}`);
+    }
+
+
+
+    while(tasks.length < 5) {
+
+      let newTask = prompt("タスクを入力してください");
+
+      if(newTask === null) {
+        break;
+      }
+
+      let newGenre = prompt("ジャンルを入力してください");
+
+      if (newGenre === null) {
+        break;
+      }
+
+      tasks.push({todo: newTask, genre: newGenre});
+      alert("新しいタスクを追加しました");
+
+      console.log("============================");
+      console.log("現在持っているタスク一覧");
+      console.log("============================");
+
+      for(let task of tasks) {
+        console.log(`${tasks.indexOf(task)} : [内容]${task.todo} [ジャンル]${task.genre}`);
+      }
+
+      let changeDo = prompt("「確認,追加,削除,終了」のいずれかを選択してください");
+
+      if (changeDo === null) {
+        break;
+      }
+    }
+
+  </script>
+
+</body>
+</html>
