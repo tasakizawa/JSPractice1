@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>課題2</title>
+</head>
+<body>
+<div id="div1">
+<h1>FizzBuzz問題</h1>
+  <form action="#" id="form">
+    <p>
+      FizzNum:<input type="text" id="fizzNum" value="" placeholder=整数を入力してください>
+    </p>
+    <p>
+      BuzzNum:<input type="text" id="buzzNum" value="" placeholder=整数を入力してください>
+    </p>
+    <p>
+      <input type="submit" value="実行">
+    </p>
+  </form>
+  <div>【出力】</div>
+</div>
+
+  <script>
+    'use strict';
+    document.getElementById('form').onsubmit = function() {
+      const div1 = document.getElementById("div1");
+
+      const input_fizzNum = document.getElementById("fizzNum");
+      const fizzNum_value = Number(input_fizzNum.value);
+
+      const input_buzzNum = document.getElementById("buzzNum");
+      const buzzNum_value = Number(input_buzzNum.value);
+
+      if (!Number.isInteger(fizzNum_value) || !Number.isInteger(buzzNum_value) ||
+      fizzNum_value === 0 || buzzNum_value === 0) {
+        document.write("エラー：整数を入力してください");
+        breake;
+      }
+
+      let i = 1;
+      let j = 1;
+      let fizzNum =fizzNum_value;
+      let buzzNum = buzzNum_value;
+
+      while (fizzNum < 100 || buzzNum < 100) {
+      const newDiv = document.createElement("div");
+      fizzNum =fizzNum_value * i;
+      buzzNum = buzzNum_value * j;
+
+
+
+      if(fizzNum === buzzNum && fizzNum < 100 && buzzNum < 100) {
+        newDiv.textContent  = "FizzBuzz" + " " + fizzNum;
+        i++;
+        j++;
+      } else if (fizzNum < buzzNum && fizzNum < 100) {
+        newDiv.textContent  = "Fizz" + " " + fizzNum;
+        i++;
+      } else if (buzzNum < fizzNum && buzzNum < 100) {
+        newDiv.textContent  = "Buzz" + " " + buzzNum;
+        j++;
+      }
+      div1.appendChild(newDiv);
+    }
+  }
+  </script>
+
+</body>
+</html>
