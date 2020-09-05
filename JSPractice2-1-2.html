@@ -6,9 +6,9 @@
   <title>課題2</title>
 </head>
 <body>
-<div id="div1">
+<div>
 <h1>FizzBuzz問題</h1>
-  <form action="#" id="form">
+  <form id="form">
     <p>
       FizzNum:<input type="text" id="fizzNum" value="" placeholder=整数を入力してください>
     </p>
@@ -16,16 +16,22 @@
       BuzzNum:<input type="text" id="buzzNum" value="" placeholder=整数を入力してください>
     </p>
     <p>
-      <input type="submit" value="実行">
+      <input type="button" value="実行" id="btn">
     </p>
   </form>
   <div>【出力】</div>
+  <div id="div1"></div>
 </div>
 
   <script>
     'use strict';
-    document.getElementById('form').onsubmit = function() {
+     document.getElementById("btn").onclick = function()  {
       const div1 = document.getElementById("div1");
+      if (div1.hasChildNodes()){
+        while (div1.firstChild) {
+          div1.removeChild(div1.firstChild);
+        }
+      }
 
       const input_fizzNum = document.getElementById("fizzNum");
       const fizzNum_value = Number(input_fizzNum.value);
@@ -35,8 +41,10 @@
 
       if (!Number.isInteger(fizzNum_value) || !Number.isInteger(buzzNum_value) ||
       fizzNum_value === 0 || buzzNum_value === 0) {
-        document.write("エラー：整数を入力してください");
-        breake;
+        const newDiv = document.createElement("div");
+        newDiv.innerHTML = "エラー：整数を入力してください";
+        div1.appendChild(newDiv);
+        return;
       }
 
       let i = 1;
@@ -45,26 +53,24 @@
       let buzzNum = buzzNum_value;
 
       while (fizzNum < 100 || buzzNum < 100) {
-      const newDiv = document.createElement("div");
-      fizzNum =fizzNum_value * i;
-      buzzNum = buzzNum_value * j;
+        const newDiv = document.createElement("div");
+        fizzNum =fizzNum_value * i;
+        buzzNum = buzzNum_value * j;
 
-
-
-      if(fizzNum === buzzNum && fizzNum < 100 && buzzNum < 100) {
-        newDiv.textContent  = "FizzBuzz" + " " + fizzNum;
-        i++;
-        j++;
-      } else if (fizzNum < buzzNum && fizzNum < 100) {
-        newDiv.textContent  = "Fizz" + " " + fizzNum;
-        i++;
-      } else if (buzzNum < fizzNum && buzzNum < 100) {
-        newDiv.textContent  = "Buzz" + " " + buzzNum;
-        j++;
+        if(fizzNum === buzzNum && fizzNum < 100 && buzzNum < 100) {
+          newDiv.innerHTML  = "FizzBuzz" + " " + fizzNum;
+          i++;
+          j++;
+        } else if (fizzNum < buzzNum && fizzNum < 100) {
+          newDiv.innerHTML  = "Fizz" + " " + fizzNum;
+          i++;
+        } else if (buzzNum < fizzNum && buzzNum < 100) {
+          newDiv.innerHTML  = "Buzz" + " " + buzzNum;
+          j++;
+        }
+        div1.appendChild(newDiv);
       }
-      div1.appendChild(newDiv);
-    }
-  }
+    };
   </script>
 
 </body>
