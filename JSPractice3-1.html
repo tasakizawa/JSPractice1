@@ -31,40 +31,53 @@
 
 <script>
   'use strict';
-  let idNumber = 0;
+  const tbody = document.getElementById('tb');
+  const todos = [];
 
-  document.getElementById("push").onclick = function() {
-    const tbody = document.getElementById("tb");
-    const tr = document.createElement("tr");
-    const td1 = document.createElement("td");
-    const td2 = document.createElement("td");
-    const td3 = document.createElement("td");
-    const td4 = document.createElement("td");
+  document.getElementById('push').onclick = function() {
+    for (let i = tbody.childNodes.length-1; i >= 0; i--) {
+      tbody.removeChild(tbody.childNodes[i]);
+    }
 
-    const taskName = document.getElementById("taskName");
-    const taskName_value = taskName.value;
-    const button1= document.createElement("button");
-    const button2 = document.createElement("button");
-    button1.innerHTML = "作業中";
-    button2.innerHTML = "削除";
-
-    td1.innerHTML = idNumber;
-    idNumber++;
-    td2.innerHTML = taskName_value;
-    td3.appendChild(button1);
-    td4.appendChild(button2);
-
-    tr.appendChild(td1);
-    tr.appendChild(td2);
-    tr.appendChild(td3);
-    tr.appendChild(td4);
-
-    tbody.appendChild(tr);
-
+    const taskName = document.getElementById('taskName');
+    const taskNameValue = taskName.value;
+    const todo = {
+      content: taskNameValue,
+      state: '作業中'
+    }
     taskName.value = "";
+    todos.push(todo);
 
+    show();
   }
 
+  function show() {
+    for (let i = 0; i < todos.length; i++) {
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td');
+      const td2 = document.createElement('td');
+      const td3 = document.createElement('td');
+      const td4 = document.createElement('td');
+      const button1= document.createElement('button');
+      const button2 = document.createElement('button');
+
+      button1.innerHTML = todos[i].state;
+      button2.innerHTML = "削除";
+
+      td1.innerHTML = i;
+      td2.innerHTML = todos[i].content;
+      td3.appendChild(button1);
+      td4.appendChild(button2);
+
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+
+      tbody.appendChild(tr);
+    }
+
+  }
 
 </script>
 
