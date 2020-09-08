@@ -26,7 +26,7 @@
   </table>
   <h2>新規タスクの追加</h2>
   <form>
-    <input type="text" id="taskName" value=""> <input type="button" value="追加" id="push">
+    <input type="text" id="taskName" value=""> <input type="button" value="追加" id="addBtn">
   </form>
 
 <script>
@@ -34,7 +34,8 @@
   const tbody = document.getElementById('tb');
   const todos = [];
 
-  document.getElementById('push').onclick = function() {
+  document.getElementById('addBtn').addEventListener('click', addTodo);
+  function addTodo() {
     for (let i = tbody.childNodes.length-1; i >= 0; i--) {
       tbody.removeChild(tbody.childNodes[i]);
     }
