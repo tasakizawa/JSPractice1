@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript 課題③-1</title>
+</head>
+<body>
+  <h1>ToDoリスト</h1>
+  <label><input type="radio" name="mng" checked>すべて</label>
+  <label><input type="radio" name="mng">作業中</label>
+  <label><input type="radio" name="mng">完了</label>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>コメント</th>
+        <th>状態</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tb">
+
+    </tbody>
+  </table>
+  <h2>新規タスクの追加</h2>
+  <form>
+    <input type="text" id="taskName" value=""> <input type="button" value="追加" id="addBtn">
+  </form>
+
+<script>
+  'use strict';
+  const tbody = document.getElementById('tb');
+  const todos = [];
+
+  document.getElementById('addBtn').addEventListener('click', addTodo);
+  function addTodo() {
+    for (let i = tbody.childNodes.length-1; i >= 0; i--) {
+      tbody.removeChild(tbody.childNodes[i]);
+    }
+
+    const taskName = document.getElementById('taskName');
+    const taskNameValue = taskName.value;
+    taskName.value = "";
+    const todo = {
+      content: taskNameValue,
+      state: '作業中'
+    }
+
+    todos.push(todo);
+
+    show();
+  }
+
+  function show() {
+    for (let i = 0; i < todos.length; i++) {
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td');
+      const td2 = document.createElement('td');
+      const td3 = document.createElement('td');
+      const td4 = document.createElement('td');
+
+      const button1= document.createElement('button');
+      const button2 = document.createElement('button');
+
+      button1.innerHTML = todos[i].state;
+      button2.innerHTML = "削除";
+
+      td1.innerHTML = i;
+      td2.innerHTML = todos[i].content;
+      td3.appendChild(button1);
+      td4.appendChild(button2);
+
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+
+      tbody.appendChild(tr);
+
+      button2.classList.add('remove');
+      button2.id = i;
+    }
+
+    const buttons = document.getElementsByClassName('remove');
+    for (let i=0; i < buttons.length; i++) {
+           buttons[i].addEventListener('click', remove);
+       };
+
+  }
+
+    function remove(){
+      for (let i = tbody.childNodes.length-1; i >= 0; i--) {
+        tbody.removeChild(tbody.childNodes[i]);
+      }
+      let id = this.getAttribute('id');
+      todos.splice(id, 1);
+      show();
+    }
+
+</script>
+
+
+
+</body>
+</html>
