@@ -56,43 +56,43 @@
   function show() {
     for (let i = 0; i < todos.length; i++) {
       const tr = document.createElement('tr');
-      const td1 = document.createElement('td');
-      const td2 = document.createElement('td');
-      const td3 = document.createElement('td');
-      const td4 = document.createElement('td');
+      const td_a = document.createElement('td');
+      const td_b = document.createElement('td');
+      const td_c = document.createElement('td');
+      const td_d = document.createElement('td');
 
-      const button1= document.createElement('button');
-      const button2 = document.createElement('button');
+      const button_a = document.createElement('button');
+      const button_b = document.createElement('button');
 
-      button1.innerHTML = todos[i].state;
-      button2.innerHTML = "削除";
+      button_a.innerHTML = todos[i].state;
+      button_b.innerHTML = '削除';
 
-      td1.innerHTML = i;
-      td2.innerHTML = todos[i].content;
-      td3.appendChild(button1);
-      td4.appendChild(button2);
+      td_a.innerHTML = i;
+      td_b.innerHTML = todos[i].content;
+      td_c.appendChild(button_a);
+      td_d.appendChild(button_b);
 
-      tr.appendChild(td1);
-      tr.appendChild(td2);
-      tr.appendChild(td3);
-      tr.appendChild(td4);
+      tr.appendChild(td_a);
+      tr.appendChild(td_b);
+      tr.appendChild(td_c);
+      tr.appendChild(td_d);
 
       tbody.appendChild(tr);
 
-      button1.classList.add('state');
-      button1.id = i;
-      button2.classList.add('remove');
-      button2.id = i;
+      button_a.classList.add('state');
+      button_a.id = i;
+      button_b.classList.add('remove');
+      button_b.id = i;
     }
 
-    const buttons1 = document.getElementsByClassName('state');
-    for (let i=0; i < buttons1.length; i++) {
-           buttons1[i].addEventListener('click', changeState);
+    const buttons_a = document.getElementsByClassName('state');
+    for (let i=0; i < buttons_a.length; i++) {
+           buttons_a[i].addEventListener('click', changeState);
        };
 
-    const buttons2 = document.getElementsByClassName('remove');
-    for (let i=0; i < buttons2.length; i++) {
-           buttons2[i].addEventListener('click', remove);
+    const buttons_b = document.getElementsByClassName('remove');
+    for (let i = 0; i < buttons_b.length; i++) {
+           buttons_b[i].addEventListener('click', remove);
        };
 
   }
