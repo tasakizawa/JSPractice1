@@ -36,9 +36,9 @@
 
   document.getElementById('addBtn').addEventListener('click', addTodo);
   function addTodo() {
-    for (let i = tbody.childNodes.length-1; i >= 0; i--) {
-      tbody.removeChild(tbody.childNodes[i]);
-    }
+      for (let i = tbody.childNodes.length - 1; i >= 0; i--) {
+        tbody.removeChild(tbody.childNodes[i]);
+      }
 
     const taskName = document.getElementById('taskName');
     const taskNameValue = taskName.value;
