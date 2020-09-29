@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>課題④-1</title>
+</head>
+<body id="body">
+  <h1 id="title">ようこそ</h1>
+  <div id="subSpace"></div>
+  <hr>
+  <div id="info">以下のボタンをクリック</div>
+  <hr><br>
+  <div id="buttonSpace"></div>
+
+  <script>
+    'use strict';
+      const body = document.getElementById('body');
+      let quizData;
+      let quizNumber = 0;
+      let correctCount = 0;
+
+      window.onload = function () {
+        const startButton = document.createElement('button');
+        document.getElementById('buttonSpace').appendChild(startButton);
+        startButton.innerHTML = '開始';
+
+        startButton.addEventListener('click', getQuiz);
+      }
+
+      function getQuiz() {
+        document.getElementById('title').innerHTML = '取得中';
+        document.getElementById('info').innerHTML = '少々お待ちください';
+        document.getElementById('buttonSpace').removeChild(document.getElementById('buttonSpace').firstChild);
+
+        const promise = new Promise((resolve, reject) => {
+          fetch("https://opentdb.com/api.php?amount=10")
+            .then(response => {
+              return response.json();
+            })
+            .then(data => {
+              console.log(data);
+              quizData = data;
+              resolve();
+            })
+            .catch(error => {
+              document.getElementById('title').innerHTML = 'データの取得に失敗しました';
+              document.getElementById('info').innerHTML = '';
+            });
+        });
+        promise.then(() =>
+          showQuiz()
+        );
+      };
+
+      function showQuiz() {
+        const quizArray = quizData.results
+        const categoryH = document.createElement('h2');
+        const difficultyH = document.createElement('h2');
+        const answerButtonDivs = [];
+        const answerButtons = [];
+
+        if (quizArray[quizNumber].type === 'boolean') {
+          for (let i = 0; i < 2; i++) {
+            answerButtons.push(document.createElement('button'));
+          }
+          for (let i = 0; i < 2; i++) {
+            answerButtonDivs.push(document.createElement('div'));
+          }
+        } else {
+          for (let i = 0; i < 4; i++) {
+            answerButtons.push(document.createElement('button'));
+          }
+          for (let i = 0; i < 4; i++) {
+            answerButtonDivs.push(document.createElement('div'));
+          }
+        }
+
+        document.getElementById('subSpace').appendChild(categoryH);
+        document.getElementById('subSpace').appendChild(difficultyH);
+
+        categoryH.innerHTML = '[ジャンル]' + quizArray[quizNumber].category;
+        difficultyH.innerHTML = '[難易度]' + quizArray[quizNumber].difficulty;
+
+        document.getElementById('title').innerHTML = '問題' + (quizNumber + 1);
+        document.getElementById('info').innerHTML = quizArray[quizNumber].question;
+
+        for (let i = 0; answerButtonDivs.length > i; i++) {
+          answerButtons[i].id = i;
+          answerButtons[i].addEventListener('click', getAnswer);
+          document.getElementById('buttonSpace').appendChild(answerButtonDivs[i]).appendChild(answerButtons[i]);
+        }
+
+        const quizAnswerArray = [];
+        const allAnswersArray = quizAnswerArray.concat(quizArray[quizNumber].incorrect_answers);
+        allAnswersArray.push(quizArray[quizNumber].correct_answer);
+
+        for (let i = allAnswersArray.length - 1; i > 0; i--) {
+          let rand = Math.floor(Math.random() * (i + 1));
+          [allAnswersArray[i], allAnswersArray[rand]] = [allAnswersArray[rand], allAnswersArray[i]];
+        }
+
+        for (let i = 0; allAnswersArray.length > i; i++) {
+          document.getElementById(i).innerHTML = allAnswersArray[i];
+        }
+
+        function getAnswer() {
+          if (this.textContent === quizArray[quizNumber].correct_answer) {
+            correctCount++;
+          }
+
+          quizNumber++;
+          const buttonSpace = document.getElementById('buttonSpace');
+          const subSpace = document.getElementById('subSpace');
+          for (let i = buttonSpace.childNodes.length - 1; i >= 0; i--) {
+            buttonSpace.removeChild(buttonSpace.childNodes[i]);
+          }
+          for (let i = subSpace.childNodes.length - 1; i >= 0; i--) {
+            subSpace.removeChild(subSpace.childNodes[i]);
+          }
+
+          if (quizNumber < 10) {
+            showQuiz();
+          } else {
+            showResult();
+          }
+
+        }
+      }
+
+      function showResult() {
+        document.getElementById('title').innerHTML = 'あなたの正答数は' + correctCount + 'です';
+        document.getElementById('info').innerHTML = 'もう一度挑戦したい場合は以下をクリック!';
+
+        const homeButton = document.createElement('button');
+        document.getElementById('buttonSpace').appendChild(homeButton);
+        homeButton.innerHTML = 'ホームに戻る';
+
+        homeButton.addEventListener('click', returnHome);
+
+      }
+
+      function returnHome() {
+        document.getElementById('buttonSpace').removeChild(document.getElementById('buttonSpace').firstChild);
+        correctCount = 0;
+        quizNumber = 0;
+
+        document.getElementById('title').innerHTML = 'ようこそ';
+        document.getElementById('info').innerHTML = '以下のボタンをクリック';
+
+        const startButton = document.createElement('button');
+        startButton.innerHTML = '開始';
+        document.getElementById('buttonSpace').appendChild(startButton);
+
+        startButton.addEventListener('click', getQuiz);
+      }
+
+  </script>
+</body>
+</html>
