@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>課題④-1</title>
-</head>
-<body id="body">
-  <h1 id="title">ようこそ</h1>
-  <div id="subSpace"></div>
-  <hr>
-  <div id="info">以下のボタンをクリック</div>
-  <hr><br>
-  <div id="buttonSpace"></div>
 
-  <script>
-    'use strict';
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>課題④-1</title>
+  </head>
+
+  <body id="body">
+    <h1 id="title">ようこそ</h1>
+    <div id="subSpace"></div>
+    <hr>
+    <div id="info">以下のボタンをクリック</div>
+    <hr><br>
+    <div id="buttonSpace"></div>
+
+    <script>
+      'use strict';
       const body = document.getElementById('body');
       let quizData;
       let quizNumber = 0;
@@ -33,25 +35,21 @@
         document.getElementById('info').innerHTML = '少々お待ちください';
         document.getElementById('buttonSpace').removeChild(document.getElementById('buttonSpace').firstChild);
 
-        const promise = new Promise((resolve, reject) => {
-          fetch("https://opentdb.com/api.php?amount=10")
-            .then(response => {
-              return response.json();
-            })
-            .then(data => {
-              console.log(data);
-              quizData = data;
-              resolve();
-            })
-            .catch(error => {
-              document.getElementById('title').innerHTML = 'データの取得に失敗しました';
-              document.getElementById('info').innerHTML = '';
-            });
-        });
-        promise.then(() =>
-          showQuiz()
-        );
+        getData();
       };
+
+      async function getData() {
+        try {
+          let response = await fetch("https://opentdb.com/api.php?amount=10");
+          quizData = await response.json();
+          showQuiz();
+        } catch {
+          document.getElementById('title').innerHTML = 'データの取得に失敗しました';
+          document.getElementById('info').innerHTML = '';
+        }
+      }
+
+
 
       function showQuiz() {
         const quizArray = quizData.results
@@ -155,6 +153,7 @@
         startButton.addEventListener('click', getQuiz);
       }
 
-  </script>
-</body>
+    </script>
+  </body>
+
 </html>
